@@ -1,4 +1,4 @@
-import { setToken,getToken,removeToken,getUserFromToken} from "./tokenService";
+import tokenService from "./tokenService";
 
 const BASE_URL = "/api/users/";
 
@@ -15,16 +15,16 @@ function signup(user) {
         if (res.ok) return res.json();
         throw new Error("Email already taken!");
       })
-      .then(({ token }) => setToken(token))
+      .then(({ token }) => tokenService.setToken(token))
   );
 }
 
 function getUser() {
-  return getUserFromToken();
+  return tokenService.getUserFromToken();
 }
 
 function logout() {
-  removeToken();
+  tokenService.removeToken();
 }
 
 function login(creds) {
@@ -41,7 +41,7 @@ function login(creds) {
       })
       // This is when we recieve the token from the server on the client
       // and store it in localstorage
-      .then(({ token }) => setToken(token))
+      .then(({ token }) => tokenService.setToken(token))
   );
 }
 
@@ -51,7 +51,7 @@ function getProfile(username) {
   return fetch(BASE_URL + username, {
     headers: {
       // make sure to send over the jwt token to identify who is making the request
-      Authorization: "Bearer " + getToken(),
+      Authorization: "Bearer " + tokenService.getToken(),
     }
   }).then((res) => {
     if (res.ok) return res.json();

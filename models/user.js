@@ -16,7 +16,9 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  photoUrl: String,
+  bio: String
 }, {
   timestamps: true,
   toJSON: {
