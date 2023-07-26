@@ -52,16 +52,4 @@ userSchema.pre("save", function (next) {
     });
   });
   
-  // We use this in the login function in the controllers!
-  userSchema.methods.comparePassword = function (tryPassword, cb) {
-    console.log(cb, " this is cb");
-    // 'this' represents the document that you called comparePassword on
-    bcrypt.compare(tryPassword, this.password, function (err, isMatch) {
-      if (err) return cb(err);
-  
-      cb(null, isMatch); // this passes true/false to the user.comparePassword
-      // in the controller login function
-    });
-  };
-  
   module.exports = mongoose.model("User", userSchema);
